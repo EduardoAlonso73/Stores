@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AppStoreUnderstan</string>
+    <string name="name_store">Name of the store o_O </string>
+    <string name="save">Save</string>
+    <string name="description_store_add">Create new store</string>
+</resources>

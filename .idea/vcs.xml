@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$/Kotlin/NextWord" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/PracticeOne" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/RecycleView" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/RetrofitAPI" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/SliderImages" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/Snapshots" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/Stores" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/Stores MVVM" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Kotlin/Test000001" vcs="Git" />
+  </component>
+</project>

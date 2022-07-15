@@ -3,7 +3,8 @@ package com.example.appstoreunderstan
 import android.app.Application
 import androidx.room.Room
 
-class StoreAppplication: Application() {
+
+class StoreApplication: Application() {
     companion object{
         lateinit var  database: StoreDatabase
     }

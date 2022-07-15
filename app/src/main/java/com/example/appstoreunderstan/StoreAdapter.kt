@@ -9,7 +9,7 @@ import com.example.appstoreunderstan.R
 import com.example.appstoreunderstan.databinding.ItemStoreBinding
 
 
-class StoreAdapter(private var nStores:MutableList<Store>, private  var listener:OnClickListener):
+class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var listener:OnClickListener):
     RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
 
     private  lateinit var  mContext:Context
@@ -36,7 +36,7 @@ class StoreAdapter(private var nStores:MutableList<Store>, private  var listener
     override fun getItemCount(): Int = nStores.size
 
 
-    fun addStore(store: Store) {
+    fun addStore(store: StoreEntity) {
        nStores.add(store)
         notifyDataSetChanged()
     }
@@ -44,7 +44,7 @@ class StoreAdapter(private var nStores:MutableList<Store>, private  var listener
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemStoreBinding.bind(view)
-         fun setListener(store: Store) {
+         fun setListener(store: StoreEntity) {
             binding.root.setOnClickListener {
             listener.onClick(store)
 }

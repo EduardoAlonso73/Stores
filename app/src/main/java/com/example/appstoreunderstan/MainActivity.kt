@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.stores.OnClickListener
-import com.example.stores.Store
 import com.example.stores.StoreAdapter
+import com.example.stores.StoreEntity
 
 
 private lateinit var  mBinding: ActivityMainBinding
@@ -18,10 +18,11 @@ class MainActivity : AppCompatActivity(),OnClickListener {
         super.onCreate(savedInstanceState)
         mBinding= ActivityMainBinding.inflate(layoutInflater )
         setContentView(mBinding.root)
-
-
         mBinding.btnSave.setOnClickListener {
-            val store= Store(name=mBinding.etName.text.toString().trim())
+            val store= StoreEntity(name=mBinding.etName.text.toString().trim())
+         Thread{
+             StoreApplication.database.storeDoa().addStore(store)
+         }.start()
             mAdapter.addStore(store)
         }
 

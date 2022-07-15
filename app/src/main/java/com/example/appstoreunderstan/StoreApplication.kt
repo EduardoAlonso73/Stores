@@ -10,5 +10,6 @@ class StoreAppplication: Application() {
     override fun onCreate() {
         super.onCreate()
         database= Room.databaseBuilder(this,StoreDatabase::class.java,"StoreDatabase").build()
+
     }
 }

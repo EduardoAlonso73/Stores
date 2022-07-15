@@ -41,6 +41,11 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
         notifyDataSetChanged()
     }
 
+    fun setListStore(storeList: MutableList<StoreEntity>) {
+        this.nStores=storeList
+        notifyDataSetChanged()
+    }
+
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemStoreBinding.bind(view)

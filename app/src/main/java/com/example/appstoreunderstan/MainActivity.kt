@@ -7,6 +7,8 @@ import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.stores.OnClickListener
 import com.example.stores.StoreAdapter
 import com.example.stores.StoreEntity
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 
 private lateinit var  mBinding: ActivityMainBinding
@@ -33,10 +35,21 @@ class MainActivity : AppCompatActivity(),OnClickListener {
     private  fun initRecycleView(){
         mAdapter= StoreAdapter(mutableListOf(),this)
         mGridLayout=GridLayoutManager(this,2)
+        getListStore()
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager=mGridLayout
             adapter=mAdapter
         }
+    }
+
+
+    private fun getListStore(){
+        doAsync {
+            val storeList = StoreApplication.database.storeDoa().getListAllStore()
+            uiThread {mAdapter.setListStore(storeList)}
+        }
+
+
     }
 }

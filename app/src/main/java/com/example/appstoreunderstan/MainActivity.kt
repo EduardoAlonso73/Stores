@@ -42,14 +42,27 @@ class MainActivity : AppCompatActivity(),OnClickListener {
             adapter=mAdapter
         }
     }
-
-
     private fun getListStore(){
         doAsync {
             val storeList = StoreApplication.database.storeDoa().getListAllStore()
             uiThread {mAdapter.setListStore(storeList)}
         }
 
+    }
 
+
+    // OnClickListener
+    override fun onClick(storeEntity: StoreEntity) {
+        super.onClick(storeEntity)
+    }
+
+    override fun onFavoriteStore(storeEntity: StoreEntity) {
+      storeEntity.isFavorite= !storeEntity.isFavorite
+        doAsync {
+            StoreApplication.database.storeDoa().updateStores(storeEntity)
+            uiThread {
+                mAdapter.updateStore(storeEntity)
+            }
+        }
     }
 }

@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Edwin/AndroidStudioProjects/AppStores/app/src/main/res/drawable/ic_store_24.xml" value="0.1985" />
         <entry key="..\:/Users/Edwin/AndroidStudioProjects/AppStores/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Edwin/AndroidStudioProjects/AppStores/app/src/main/res/layout/fragment_edit_store.xml" value="0.2368659420289855" />
         <entry key="..\:/Users/Edwin/AndroidStudioProjects/AppStores/app/src/main/res/layout/item_store.xml" value="0.23777173913043478" />
         <entry key="..\:/Users/Edwin/AndroidStudioProjects/app/src/main/res/drawable/ic_add_business.xml" value="0.1895" />
         <entry key="..\:/Users/Edwin/AndroidStudioProjects/app/src/main/res/drawable/ic_favorite.xml" value="0.1895" />

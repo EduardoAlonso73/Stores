@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.appstoreunderstan.OnClickListener
 import com.example.appstoreunderstan.R
 import com.example.appstoreunderstan.databinding.ItemStoreBinding
 
 
-class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var listener:OnClickListener):
+class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var listener: OnClickListener):
     RecyclerView.Adapter<StoreAdapter.ViewHolder>() {
 
     private  lateinit var  mContext:Context
@@ -53,14 +54,25 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
         }
     }
 
+    fun deleteStore(storeEntity: StoreEntity) {
+        val i = nStores.indexOf(storeEntity)
+        if (i!= -1){
+            nStores.removeAt(i)
+            notifyItemRemoved(i)
+        }
+    }
+
+
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemStoreBinding.bind(view)
          fun setListener(storeEntity: StoreEntity) {
-            binding.root.setOnClickListener {
-            listener.onClick(storeEntity) }
-             binding.cbFavorite.setOnClickListener {
-                 listener.onFavoriteStore(storeEntity)
+             with(binding.root){
+             setOnClickListener { listener.onClick(storeEntity) }
+             setOnLongClickListener { listener.onDeleteStore(storeEntity )
+                   true }
+             setOnClickListener {listener.onFavoriteStore(storeEntity) }
              }
+
         }
     }
 }

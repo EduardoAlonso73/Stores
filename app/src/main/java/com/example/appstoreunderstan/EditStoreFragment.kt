@@ -49,7 +49,7 @@ private var mActivity :MainActivity? = null
                 val website=mBinding.etWebsite.text.toString().trim()
                 val store=StoreEntity(name=nameStore,phone=phone, website = website)
                 doAsync {
-                    StoreApplication.database.storeDoa().addStore(store)
+                    store.id=StoreApplication.database.storeDoa().addStore(store)
                     uiThread {
                         mActivity?.addStore(store)
                         hideKeyboard()

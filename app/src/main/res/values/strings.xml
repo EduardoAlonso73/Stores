@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AppStoreUnderstan</string>
+    <string name="app_name">Store</string>
     <string name="name_store">Name of the store o_O </string>
     <string name="save">Save</string>
     <string name="description_store_add">Create new store</string>
@@ -12,4 +12,6 @@
     <string name="hint_photo_url">Foto</string>
     <string name="description_img_photo">Image  que muestra la tienda</string>
     <string name="hit_url_img">foto de la imagen</string>
+    <string name="edit_store_add">Crear tienda</string>
+    <string name="menu_save">Save</string>
 </resources>

@@ -100,7 +100,6 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     /*==============================================
                  interface  MainAux
      ==============================================*/
-
     override fun hideBtnFb(isVisible: Boolean) {
         if(isVisible) mBinding.btnFa.show() else mBinding.btnFa.hide()
     }

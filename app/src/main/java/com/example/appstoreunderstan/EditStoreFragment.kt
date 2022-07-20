@@ -57,7 +57,8 @@ private var mActivity :MainActivity? = null
                 val nameStore= mBinding.etName.text.toString().trim()
                 val phone=mBinding.etPhone.text.toString().trim()
                 val website=mBinding.etWebsite.text.toString().trim()
-                val store=StoreEntity(name=nameStore,phone=phone, website = website)
+                val photoUrl=mBinding.etPhotoUrl.text.toString().trim()
+                val store=StoreEntity(name=nameStore,phone=phone, website = website, photoUrl = photoUrl)
                 doAsync {
                     store.id=StoreApplication.database.storeDoa().addStore(store)
                     uiThread {

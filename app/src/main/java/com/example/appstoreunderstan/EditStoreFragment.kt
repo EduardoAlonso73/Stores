@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.databinding.FragmentEditStoreBinding
 import com.example.stores.StoreEntity
-import com.google.android.material.snackbar.Snackbar
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -25,10 +27,18 @@ private var mActivity :MainActivity? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-         mActivity = activity as? MainActivity
+        mActivity = activity as? MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)// Habilitamos el icono de retroceso <-
         mActivity?.supportActionBar?.title=getString(R.string.edit_store_add)
         setHasOptionsMenu(true) //Habilitamos la opcion  para agregar  actiones en el appBar
+
+        mBinding.etPhotoUrl.addTextChangedListener {
+            Glide.with(this)
+                .load(mBinding.etPhotoUrl.text.toString())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(mBinding.imgPhoto)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -63,8 +73,6 @@ private var mActivity :MainActivity? = null
             }
         }
     }
-
-
     private  fun hideKeyboard(){
         val imm =mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(requireView().windowToken,0)

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.stores.StoreAdapter
@@ -12,22 +13,19 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
 
-private lateinit var  mBinding: ActivityMainBinding
-private lateinit var  mAdapter:StoreAdapter
-private lateinit var mGridLayout: GridLayoutManager
+
 
 class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
+
+    private lateinit var  mBinding: ActivityMainBinding
+    private lateinit var  mAdapter:StoreAdapter
+    private lateinit var mGridLayout: GridLayoutManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding= ActivityMainBinding.inflate(layoutInflater )
         setContentView(mBinding.root)
 
-       /* mBinding.btnSave.setOnClickListener {
-            val store= StoreEntity(name=mBinding.etName.text.toString().trim())
-         Thread{ StoreApplication.database.storeDoa().addStore(store) }
-             .start()
-            mAdapter.addStore(store)
-        }*/
         initRecycleView()
         mBinding.btnFa.setOnClickListener{ launchEditFragment() }
     }
@@ -59,7 +57,10 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_grid2 -> { initRecycleView() }
+            R.id.action_grid2 -> {
+                initRecycleView()
+
+            }
             R.id.action_row -> { initRecycleView(1) }
         }
         return super.onOptionsItemSelected(item)
@@ -73,7 +74,7 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     }
 
      /*==============================================
-                 interface  onClicklistener
+                 interface  onChecklists
      ==============================================*/
 
     override fun onClick(storeEntity: StoreEntity) {
@@ -81,10 +82,12 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     }
 
     override fun onFavoriteStore(storeEntity: StoreEntity) {
-      storeEntity.isFavorite =! storeEntity.isFavorite
+      storeEntity.isFavorite = !storeEntity.isFavorite
+
         doAsync {
             StoreApplication.database.storeDoa().updateStores(storeEntity)
             uiThread {
+                Toast.makeText(this@MainActivity,storeEntity.isFavorite.toString(), Toast.LENGTH_SHORT).show()
                 mAdapter.updateStore(storeEntity)
             }
         }
@@ -97,9 +100,9 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
             }
         }
     }
-    /*==============================================
+    /* ==============================================
                  interface  MainAux
-     ==============================================*/
+     ============================================== */
     override fun hideBtnFb(isVisible: Boolean) {
         if(isVisible) mBinding.btnFa.show() else mBinding.btnFa.hide()
     }
@@ -111,6 +114,8 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     override fun updateStore(storeEntity: StoreEntity) {
         //TODO("Not yet implemented")
     }
+
+
 
 
 }

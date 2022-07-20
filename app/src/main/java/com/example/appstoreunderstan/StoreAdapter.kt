@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.OnClickListener
 import com.example.appstoreunderstan.R
 import com.example.appstoreunderstan.databinding.ItemStoreBinding
@@ -30,11 +32,14 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
             setListener(store)
             binding.tvName.text=store.name
             binding.cbFavorite.isChecked=store.isFavorite
+            Glide.with(mContext)
+                .load(store.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(binding.imgPhoto)
         }
     }
-
     override fun getItemCount(): Int = nStores.size
-
 
     fun addStore(store: StoreEntity) {
       if(!nStores.contains(store)){

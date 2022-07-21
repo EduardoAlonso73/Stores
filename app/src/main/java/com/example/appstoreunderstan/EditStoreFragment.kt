@@ -2,6 +2,7 @@ package com.example.appstoreunderstan
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -17,6 +18,8 @@ import org.jetbrains.anko.uiThread
 class EditStoreFragment : Fragment() {
 private lateinit var  mBinding: FragmentEditStoreBinding
 private var mActivity :MainActivity? = null
+    private var mIsEditMode:Boolean =false
+    private  var mStoreEntity:StoreEntity?=null
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +30,16 @@ private var mActivity :MainActivity? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val id = arguments?.getLong(getString(R.string.arg_id),0)
+        if(id != null && id !=0L ) {
+            mIsEditMode=true
+            getStore(id)
+        }
+        else{
+                mIsEditMode=false
+            mStoreEntity= StoreEntity(name = "", phone = "", photoUrl = "")
+        }
+
         mActivity = activity as? MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)// Habilitamos el icono de retroceso <-
         mActivity?.supportActionBar?.title=getString(R.string.edit_store_add)
@@ -40,6 +53,28 @@ private var mActivity :MainActivity? = null
                 .into(mBinding.imgPhoto)
         }
     }
+    private fun getStore(id: Long) {
+        doAsync {
+            mStoreEntity=StoreApplication.database.storeDoa().getStoreById(id)
+            uiThread {
+                mStoreEntity.let { setUiStore(mStoreEntity!!) }
+
+            }
+        }
+    }
+
+    private fun setUiStore(mStoreEntity: StoreEntity) {
+        with(mBinding) {
+            //Usamos setText para las propiedades edit text ya que su propiedada text no permite como un inputText
+            etName.setText(mStoreEntity.name)
+            etPhone.text=mStoreEntity.phone.editable()//Otra forma de hacerlo
+            etWebsite.text=mStoreEntity.website.editable()
+            etPhotoUrl.text=mStoreEntity.photoUrl.editable()
+        }
+    }
+
+    private fun String.editable():Editable=Editable.Factory.getInstance().newEditable(this)
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_save,menu)
@@ -54,20 +89,31 @@ private var mActivity :MainActivity? = null
                 true
             }
             R.id.action_save-> {
-                val nameStore= mBinding.etName.text.toString().trim()
-                val phone=mBinding.etPhone.text.toString().trim()
-                val website=mBinding.etWebsite.text.toString().trim()
-                val photoUrl=mBinding.etPhotoUrl.text.toString().trim()
-                val store=StoreEntity(name=nameStore,phone=phone, website = website, photoUrl = photoUrl)
-                doAsync {
-                    store.id=StoreApplication.database.storeDoa().addStore(store)
-                    uiThread {
-                        mActivity?.addStore(store)
-                        hideKeyboard()
-                        Toast.makeText(context,"Tienda agregado", Toast.LENGTH_SHORT).show()
-                        mActivity?.onBackPressed()
-                    }
-                }
+              if(mStoreEntity!=null){
+                  with(mStoreEntity!!){
+                      name= mBinding.etName.text.toString().trim()
+                      phone=mBinding.etPhone.text.toString().trim()
+                      website=mBinding.etWebsite.text.toString().trim()
+                      photoUrl=mBinding.etPhotoUrl.text.toString().trim()
+                  }
+                  // val store=StoreEntity(name=nameStore,phone=phone, website = website, photoUrl = photoUrl)
+                  doAsync {
+                      if (mIsEditMode)StoreApplication.database.storeDoa().updateStores(mStoreEntity!!)
+                      else mStoreEntity!!.id=StoreApplication.database.storeDoa().addStore(mStoreEntity!!)
+
+                      uiThread {
+                          if(mIsEditMode){
+                              mActivity?.updateStore(mStoreEntity!!)
+                              Toast.makeText(context,"Tienda actulizada ",Toast.LENGTH_SHORT).show()
+                          }else {
+                              mActivity?.addStore(mStoreEntity!!)
+                              Toast.makeText(context,"Tienda agregado", Toast.LENGTH_SHORT).show()
+                          }
+                          hideKeyboard()
+                          mActivity?.onBackPressed()
+                      }
+                  }
+              }
                 true
             }else->{
                 super.onOptionsItemSelected(item)

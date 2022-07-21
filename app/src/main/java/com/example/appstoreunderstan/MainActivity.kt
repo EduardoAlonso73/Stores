@@ -29,8 +29,11 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         initRecycleView()
         mBinding.btnFa.setOnClickListener{ launchEditFragment() }
     }
-        private fun launchEditFragment(){
+        private fun launchEditFragment(args:Bundle?=null){
             val fragment=EditStoreFragment()
+
+            if(args!=null){fragment.arguments=args}
+
             val fragmentManager=supportFragmentManager
             val fragmentTransaction=fragmentManager.beginTransaction()
             fragmentTransaction.add(R.id.contreinerMain,fragment)
@@ -40,9 +43,9 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
 
         }
 
-    private  fun initRecycleView(nlayout:Int = 2){
+    private  fun initRecycleView(layout:Int = 2){
         mAdapter= StoreAdapter(mutableListOf(),this)
-        mGridLayout=GridLayoutManager(this,nlayout)
+        mGridLayout=GridLayoutManager(this,layout)
         getListStore()
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
@@ -50,6 +53,20 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
             adapter=mAdapter
         }
     }
+
+
+    private fun getListStore(){
+        doAsync {
+            val storeList = StoreApplication.database.storeDoa().getListAllStore()
+            uiThread {mAdapter.setListStore(storeList)}
+        }
+
+    }
+
+
+    /* ==============================================
+                          ACTION BAR
+     =============================================== */
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.option_layout, menu)
@@ -59,31 +76,25 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         when (item.itemId) {
             R.id.action_grid2 -> {
                 initRecycleView()
-
             }
             R.id.action_row -> { initRecycleView(1) }
         }
         return super.onOptionsItemSelected(item)
-    }
-    private fun getListStore(){
-        doAsync {
-            val storeList = StoreApplication.database.storeDoa().getListAllStore()
-            uiThread {mAdapter.setListStore(storeList)}
-        }
-
     }
 
      /*==============================================
                  interface  onChecklists
      ==============================================*/
 
-    override fun onClick(storeEntity: StoreEntity) {
-        super.onClick(storeEntity)
+    override fun onClick(storeId: Long) {
+     val args =Bundle()
+        args.putLong(getString(R.string.arg_id),storeId)
+        launchEditFragment(args)
     }
+
 
     override fun onFavoriteStore(storeEntity: StoreEntity) {
       storeEntity.isFavorite = !storeEntity.isFavorite
-
         doAsync {
             StoreApplication.database.storeDoa().updateStores(storeEntity)
             uiThread {
@@ -112,7 +123,7 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     }
 
     override fun updateStore(storeEntity: StoreEntity) {
-        //TODO("Not yet implemented")
+    mAdapter.updateStore(storeEntity)
     }
 
 

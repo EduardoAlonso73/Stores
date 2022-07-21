@@ -17,8 +17,6 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
 
     private  lateinit var  mContext:Context
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         mContext=parent.context
         val view =LayoutInflater.from(mContext).inflate(R.layout.item_store,parent,false)
@@ -74,12 +72,12 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
         val binding = ItemStoreBinding.bind(view)
          fun setListener(storeEntity: StoreEntity) {
              with(binding.root){
-             setOnClickListener { listener.onClick(storeEntity) }
-             setOnLongClickListener { listener.onDeleteStore(storeEntity )
-                   true }
-             setOnClickListener {listener.onFavoriteStore(storeEntity) }
+                 setOnClickListener { listener.onClick(storeEntity.id) }
+                 setOnLongClickListener { listener.onDeleteStore(storeEntity )
+                     true
+                 }
              }
-
+             binding.cbFavorite.setOnClickListener{ listener.onFavoriteStore(storeEntity) }
         }
     }
 }

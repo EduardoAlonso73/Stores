@@ -82,6 +82,7 @@
             android:layout_marginTop="@dimen/common_padding_default"
             android:layout_gravity="center_vertical">
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiPhotoUrl"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

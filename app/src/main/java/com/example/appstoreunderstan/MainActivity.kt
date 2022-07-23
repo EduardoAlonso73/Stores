@@ -2,6 +2,8 @@ package com.example.appstoreunderstan
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -107,9 +109,26 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         }
     }
     override fun onDeleteStore(storeEntity: StoreEntity) {
+    val itemsOption= arrayOf("Eliminar","Llamar","Ir al sition web")
+
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
-            .setPositiveButton(R.string.dialog_delete_confirm,{dialogInterface, i ->
+            .setItems(itemsOption){dialogInterface, i ->
+                when(i){
+                    0->{confirmDelete(storeEntity)}
+                    1->{dial(storeEntity.phone)}
+                    2->{}
+                    else->{}
+                }
+            }
+            .show()
+    }
+
+
+    private fun confirmDelete(storeEntity: StoreEntity){
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_delete_title)
+            .setPositiveButton(R.string.dialog_delete_confirm){_, i ->
                 doAsync {
                     StoreApplication.database.storeDoa().deleteStore(storeEntity)
                     uiThread {
@@ -117,9 +136,17 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
                     }
                 }
 
-            })
+            }
             .setNegativeButton(R.string.dialog_delete_cancel,null)
             .show()
+    }
+
+    private fun dial(numberPhone:String){
+        val callIntent=Intent().apply {
+            action=Intent.ACTION_DIAL
+            data= Uri.parse("tel:$numberPhone")
+        }
+        startActivity(callIntent)
     }
     /* ==============================================
                  interface  MainAux

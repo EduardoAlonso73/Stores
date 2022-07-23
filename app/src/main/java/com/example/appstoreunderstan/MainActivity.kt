@@ -1,5 +1,7 @@
 package com.example.appstoreunderstan
 
+import android.content.Context
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -9,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.stores.StoreAdapter
 import com.example.stores.StoreEntity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -104,12 +107,19 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         }
     }
     override fun onDeleteStore(storeEntity: StoreEntity) {
-        doAsync {
-            StoreApplication.database.storeDoa().deleteStore(storeEntity)
-            uiThread {
-                mAdapter.deleteStore(storeEntity)
-            }
-        }
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.dialog_delete_title)
+            .setPositiveButton(R.string.dialog_delete_confirm,{dialogInterface, i ->
+                doAsync {
+                    StoreApplication.database.storeDoa().deleteStore(storeEntity)
+                    uiThread {
+                        mAdapter.deleteStore(storeEntity)
+                    }
+                }
+
+            })
+            .setNegativeButton(R.string.dialog_delete_cancel,null)
+            .show()
     }
     /* ==============================================
                  interface  MainAux

@@ -16,4 +16,7 @@
     <string name="menu_save">Save</string>
     <string name="arg_id">key_id</string>
     <string name="edit_store">Editar tienda</string>
+    <string name="dialog_delete_title">¿Elimirnar Tienda?</string>
+    <string name="dialog_delete_confirm">Eliminar</string>
+    <string name="dialog_delete_cancel">Cancelar</string>
 </resources>

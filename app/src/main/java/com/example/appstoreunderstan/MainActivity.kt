@@ -1,5 +1,6 @@
 package com.example.appstoreunderstan
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -109,7 +110,8 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         }
     }
     override fun onDeleteStore(storeEntity: StoreEntity) {
-    val itemsOption= arrayOf("Eliminar","Llamar","Ir al sition web")
+   // val itemsOption= arrayOf("Eliminar","Llamar","Ir al sition web")
+        val itemsOption= resources.getTextArray(R.array.array_optins_item)
 
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
@@ -117,13 +119,12 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
                 when(i){
                     0->{confirmDelete(storeEntity)}
                     1->{dial(storeEntity.phone)}
-                    2->{}
+                    2->{goToWebsite(storeEntity.website)}
                     else->{}
                 }
             }
             .show()
     }
-
 
     private fun confirmDelete(storeEntity: StoreEntity){
         MaterialAlertDialogBuilder(this)
@@ -135,19 +136,42 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
                         mAdapter.deleteStore(storeEntity)
                     }
                 }
-
             }
             .setNegativeButton(R.string.dialog_delete_cancel,null)
             .show()
     }
+
 
     private fun dial(numberPhone:String){
         val callIntent=Intent().apply {
             action=Intent.ACTION_DIAL
             data= Uri.parse("tel:$numberPhone")
         }
-        startActivity(callIntent)
+        startIntent(callIntent)
     }
+
+    private fun goToWebsite(website:String) {
+
+        if (website.isEmpty()) {
+            Toast.makeText(this, "No dispone de un stion web ", Toast.LENGTH_SHORT).show()
+        } else {
+            val websiteIntert = Intent().apply {
+                action = Intent.ACTION_VIEW
+                data = Uri.parse((website))
+            }
+                startIntent(websiteIntert)
+        }
+    }
+
+    private fun startIntent(intent: Intent){
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            Toast.makeText(this, "No se encontro una app compatible", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     /* ==============================================
                  interface  MainAux
      ============================================== */

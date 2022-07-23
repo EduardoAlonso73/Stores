@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
             StoreApplication.database.storeDoa().updateStores(storeEntity)
             uiThread {
                 Toast.makeText(this@MainActivity,storeEntity.isFavorite.toString(), Toast.LENGTH_SHORT).show()
-                mAdapter.updateStore(storeEntity)
+                updateStore(storeEntity)
             }
         }
     }

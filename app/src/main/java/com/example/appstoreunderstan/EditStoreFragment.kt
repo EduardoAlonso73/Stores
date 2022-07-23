@@ -42,12 +42,17 @@ private var mActivity :MainActivity? = null
             mStoreEntity= StoreEntity(name = "", phone = "", photoUrl = "")
         }
 
+
+
+       setupActionBar()
+       setupTextFields()
+    }
+
+    private fun setupActionBar() {
         mActivity = activity as? MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)// Habilitamos el icono de retroceso <-
-        mActivity?.supportActionBar?.title=getString(R.string.edit_store_add)
+        mActivity?.supportActionBar?.title=if(mIsEditMode) getString(R.string.edit_store) else getString(R.string.edit_store_add)
         setHasOptionsMenu(true) //Habilitamos la opcion  para agregar  actiones en el appBar
-
-       setupTextFields()
     }
 
     private fun setupTextFields() {

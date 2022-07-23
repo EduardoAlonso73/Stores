@@ -15,4 +15,5 @@
     <string name="edit_store_add">Crear tienda</string>
     <string name="menu_save">Save</string>
     <string name="arg_id">key_id</string>
+    <string name="edit_store">Editar tienda</string>
 </resources>

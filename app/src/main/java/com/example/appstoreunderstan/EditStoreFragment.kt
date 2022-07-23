@@ -54,6 +54,13 @@ private var mActivity :MainActivity? = null
                 .centerCrop()
                 .into(mBinding.imgPhoto)
         }
+                    with(mBinding){
+                        etName.addTextChangedListener{validateFields(mBinding.tilName)}
+                        etPhone.addTextChangedListener{validateFields(mBinding.tilPhone)}
+                        etPhotoUrl.addTextChangedListener{validateFields(mBinding.tiPhotoUrl)}
+                    }
+
+
     }
     private fun getStore(id: Long) {
         doAsync {
@@ -129,7 +136,7 @@ private var mActivity :MainActivity? = null
             if(textField.editText?.text.toString().trim().isEmpty()){
                 textField.error=getString(R.string.helper_required)
                 isValid=false
-            }
+            }else textField.error=null
         }
         if (!isValid) Snackbar.make(mBinding.root,"Revise los campos requeridos",Snackbar.LENGTH_SHORT).show()
         return isValid

@@ -38,7 +38,7 @@ private var mActivity :MainActivity? = null
             getStore(id)
         }
         else{
-                mIsEditMode=false
+            mIsEditMode=false
             mStoreEntity= StoreEntity(name = "", phone = "", photoUrl = "")
         }
 
@@ -47,21 +47,27 @@ private var mActivity :MainActivity? = null
         mActivity?.supportActionBar?.title=getString(R.string.edit_store_add)
         setHasOptionsMenu(true) //Habilitamos la opcion  para agregar  actiones en el appBar
 
-        mBinding.etPhotoUrl.addTextChangedListener {
-            Glide.with(this)
-                .load(mBinding.etPhotoUrl.text.toString())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .into(mBinding.imgPhoto)
-        }
-                    with(mBinding){
-                        etName.addTextChangedListener{validateFields(mBinding.tilName)}
-                        etPhone.addTextChangedListener{validateFields(mBinding.tilPhone)}
-                        etPhotoUrl.addTextChangedListener{validateFields(mBinding.tiPhotoUrl)}
-                    }
-
-
+       setupTextFields()
     }
+
+    private fun setupTextFields() {
+        with(mBinding){
+            etName.addTextChangedListener{validateFields(mBinding.tilName)}
+            etPhone.addTextChangedListener{validateFields(mBinding.tilPhone)}
+            etPhotoUrl.addTextChangedListener{
+                validateFields(mBinding.tiPhotoUrl)
+                loadImage(it.toString())
+            }
+        }
+    }
+    private fun loadImage(url:String){
+        Glide.with(this)
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .centerCrop()
+            .into(mBinding.imgPhoto)
+    }
+
     private fun getStore(id: Long) {
         doAsync {
             mStoreEntity=StoreApplication.database.storeDoa().getStoreById(id)

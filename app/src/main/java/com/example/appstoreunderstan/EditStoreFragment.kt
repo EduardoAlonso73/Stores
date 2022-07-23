@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.databinding.FragmentEditStoreBinding
 import com.example.stores.StoreEntity
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -89,7 +91,7 @@ private var mActivity :MainActivity? = null
                 true
             }
             R.id.action_save-> {
-              if(mStoreEntity!=null && validateFields()){
+              if(mStoreEntity!=null && validateFields(mBinding.tiPhotoUrl,mBinding.tilPhone,mBinding.tilName)){
                   with(mStoreEntity!!){
                       name= mBinding.etName.text.toString().trim()
                       phone=mBinding.etPhone.text.toString().trim()
@@ -121,7 +123,18 @@ private var mActivity :MainActivity? = null
         }
     }
 
-    private fun validateFields(): Boolean {
+    private fun validateFields(vararg textFiels:TextInputLayout): Boolean {
+        var isValid = true
+        for (textField in textFiels){
+            if(textField.editText?.text.toString().trim().isEmpty()){
+                textField.error=getString(R.string.helper_required)
+                isValid=false
+            }
+        }
+        if (!isValid) Snackbar.make(mBinding.root,"Revise los campos requeridos",Snackbar.LENGTH_SHORT).show()
+        return isValid
+    }
+/*    private fun validateFields(): Boolean {
         var isValid=true
         if(mBinding.etPhotoUrl.text.toString().trim().isEmpty()){
             mBinding.tiPhotoUrl.error=getString(R.string.helper_required)
@@ -141,7 +154,7 @@ private var mActivity :MainActivity? = null
             isValid=false
         }
         return  isValid
-    }
+    }*/
 
     private  fun hideKeyboard(){
         val imm =mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

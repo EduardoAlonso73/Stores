@@ -18,5 +18,7 @@
     <string name="edit_store">Editar tienda</string>
     <string name="dialog_delete_title">¿Elimirnar Tienda?</string>
     <string name="dialog_delete_confirm">Eliminar</string>
+    <string name="option_item_call">Llamar</string>
+    <string name="option_item_goToWeb">Ir al sitio web</string>
     <string name="dialog_delete_cancel">Cancelar</string>
 </resources>

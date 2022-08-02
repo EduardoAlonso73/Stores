@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/color_cover"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".EditStoreFragment">
 
@@ -25,9 +25,10 @@
     <com.google.android.material.card.MaterialCardView
     android:layout_width="match_parent"
     app:cardCornerRadius="30dp"
-        android:layout_marginBottom="15dp"
-        app:cardElevation="0dp"
+    android:layout_marginBottom="15dp"
+    app:cardElevation="0dp"
     android:layout_marginTop="-45dp"
+    android:backgroundTint="@color/color_cover"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -40,13 +41,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Data Store"
+            android:text="@string/data_store"
             android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-
-            />
+            android:layout_marginBottom="20dp" />
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -61,8 +60,8 @@
             app:startIconDrawable="@drawable/ic_store"
             app:counterEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
-
                 android:id="@+id/etName"
+                android:shadowColor="@color/primaryDarkColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/counter_max_name"

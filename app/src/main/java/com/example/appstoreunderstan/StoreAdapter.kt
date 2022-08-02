@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.OnClickListener
 import com.example.appstoreunderstan.R
+import com.example.appstoreunderstan.StoreEntity
 import com.example.appstoreunderstan.databinding.ItemStoreBinding
 
 

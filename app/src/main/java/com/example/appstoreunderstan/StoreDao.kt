@@ -1,7 +1,7 @@
 package com.example.appstoreunderstan
 
 import androidx.room.*
-import com.example.stores.StoreEntity
+import com.example.appstoreunderstan.StoreEntity
 
 @Dao
 interface StoreDao {
@@ -22,7 +22,7 @@ interface StoreDao {
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Query("SELECT * FROM StoreEntity where id =:id")
-        fun getStoreById(id:Long):StoreEntity
+        fun getStoreById(id:Long): StoreEntity
 
 
 

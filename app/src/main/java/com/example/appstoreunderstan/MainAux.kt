@@ -1,9 +1,8 @@
 package com.example.appstoreunderstan
 
-import com.example.stores.StoreEntity
-
 interface MainAux {
-    fun hideBtnFb(isVisible:Boolean=false)
+    fun hideBtnFb(isVisible:Boolean=true)
+    fun hideMenu( menuVisibility:Boolean)
     fun addStore(storeEntity: StoreEntity)
     fun updateStore(storeEntity: StoreEntity)
 

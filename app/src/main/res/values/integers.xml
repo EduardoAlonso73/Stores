@@ -4,4 +4,6 @@
     <integer name="counter_max_Phone">15</integer>
     <integer name="lines_url_website">2</integer>
     <integer name="lines_url_photo">4</integer>
+    <integer name="main_column">2</integer>
+    <integer name="one_column">1</integer>
 </resources>

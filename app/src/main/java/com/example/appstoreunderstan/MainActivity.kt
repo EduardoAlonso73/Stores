@@ -1,21 +1,19 @@
 package com.example.appstoreunderstan
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.stores.StoreAdapter
-import com.example.stores.StoreEntity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 
@@ -27,19 +25,19 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     private lateinit var  mAdapter:StoreAdapter
     private lateinit var mGridLayout: GridLayoutManager
 
+    private var mainMenu: Menu? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding= ActivityMainBinding.inflate(layoutInflater )
         setContentView(mBinding.root)
-
         initRecycleView()
         mBinding.btnFa.setOnClickListener{ launchEditFragment() }
     }
         private fun launchEditFragment(args:Bundle?=null){
             val fragment=EditStoreFragment()
-
             if(args!=null){fragment.arguments=args}
-
             val fragmentManager=supportFragmentManager
             val fragmentTransaction=fragmentManager.beginTransaction()
             fragmentTransaction.add(R.id.contreinerMain,fragment)
@@ -49,9 +47,9 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
 
         }
 
-    private  fun initRecycleView(layout:Int = 2){
+    private  fun initRecycleView(numLayou:Int=R.integer.main_column){
         mAdapter= StoreAdapter(mutableListOf(),this)
-        mGridLayout=GridLayoutManager(this,layout)
+        mGridLayout=GridLayoutManager(this,resources.getInteger(numLayou))
         getListStore()
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
@@ -59,8 +57,6 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
             adapter=mAdapter
         }
     }
-
-
     private fun getListStore(){
         doAsync {
             val storeList = StoreApplication.database.storeDoa().getListAllStore()
@@ -68,22 +64,19 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         }
 
     }
-
-
     /* ==============================================
                           ACTION BAR
      =============================================== */
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        mainMenu = menu
         menuInflater.inflate(R.menu.option_layout, menu)
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_grid2 -> {
-                initRecycleView()
-            }
-            R.id.action_row -> { initRecycleView(1) }
+            R.id.action_grid2 -> {initRecycleView() }
+            R.id.action_row -> { initRecycleView(R.integer.one_column) }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -179,6 +172,12 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         if(isVisible) mBinding.btnFa.show() else mBinding.btnFa.hide()
     }
 
+    override fun hideMenu(menuVisibility: Boolean) {
+        mainMenu?.findItem(R.id.action_row)?.setVisible(menuVisibility)
+        mainMenu?.findItem(R.id.action_grid2)?.setVisible(menuVisibility)
+        Toast.makeText(this,"Hola mundo",Toast.LENGTH_SHORT).show()
+    }
+
     override fun addStore(storeEntity: StoreEntity) {
         mAdapter.addStore(storeEntity)
     }
@@ -186,8 +185,5 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     override fun updateStore(storeEntity: StoreEntity) {
     mAdapter.updateStore(storeEntity)
     }
-
-
-
 
 }

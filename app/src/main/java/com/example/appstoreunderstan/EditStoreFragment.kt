@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.databinding.FragmentEditStoreBinding
-import com.example.stores.StoreEntity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.jetbrains.anko.doAsync
@@ -21,13 +20,15 @@ class EditStoreFragment : Fragment() {
 private lateinit var  mBinding: FragmentEditStoreBinding
 private var mActivity :MainActivity? = null
     private var mIsEditMode:Boolean =false
-    private  var mStoreEntity:StoreEntity?=null
+    private  var mStoreEntity: StoreEntity?=null
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View {
         mBinding= FragmentEditStoreBinding.inflate(inflater,container,false)
         return mBinding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -41,9 +42,6 @@ private var mActivity :MainActivity? = null
             mIsEditMode=false
             mStoreEntity= StoreEntity(name = "", phone = "", photoUrl = "")
         }
-
-
-
        setupActionBar()
        setupTextFields()
     }
@@ -97,6 +95,7 @@ private var mActivity :MainActivity? = null
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        mActivity?.hideMenu(false)
         inflater.inflate(R.menu.menu_save,menu)
         super.onCreateOptionsMenu(menu, inflater)
     }

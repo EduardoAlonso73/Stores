@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.*
 import com.example.appstoreunderstan.common.utils.MainAux
@@ -15,6 +16,7 @@ import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.appstoreunderstan.editModel.EditStoreFragment
 import com.example.appstoreunderstan.mainModule.adapter.OnClickListener
 import com.example.appstoreunderstan.mainModule.adapter.StoreAdapter
+import com.example.appstoreunderstan.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -27,18 +29,32 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     private lateinit var  mBinding: ActivityMainBinding
     private lateinit var  mAdapter: StoreAdapter
     private lateinit var mGridLayout: GridLayoutManager
-
     private var mainMenu: Menu? = null
+    //MVVM
+    private  lateinit var mMainViewModel: MainViewModel
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupViewModel()
         mBinding= ActivityMainBinding.inflate(layoutInflater )
         setContentView(mBinding.root)
         initRecycleView()
         mBinding.btnFa.setOnClickListener{ launchEditFragment() }
     }
-        private fun launchEditFragment(args:Bundle?=null){
+
+
+    private  fun setupViewModel(){
+        mMainViewModel=ViewModelProvider(this)[MainViewModel::class.java]
+        mMainViewModel.getStores().observe(this){store->
+            mAdapter.setListStore(store)
+
+        }
+    }
+
+
+    private fun launchEditFragment(args:Bundle?=null){
             val fragment= EditStoreFragment()
             if(args!=null){fragment.arguments=args}
             val fragmentManager=supportFragmentManager
@@ -53,20 +69,25 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     private  fun initRecycleView(numLayou:Int= R.integer.main_column){
         mAdapter= StoreAdapter(mutableListOf(),this)
         mGridLayout=GridLayoutManager(this,resources.getInteger(numLayou))
-        getListStore()
+        //getListStore()
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager=mGridLayout
             adapter=mAdapter
         }
     }
-    private fun getListStore(){
+
+    //TODO: Comentario
+
+/*    private fun getListStore(){
         doAsync {
             val storeList = StoreApplication.database.storeDoa().getListAllStore()
             uiThread {mAdapter.setListStore(storeList)}
         }
 
-    }
+    }*/
+
+
     /* ==============================================
                           ACTION BAR
      =============================================== */

@@ -3,27 +3,25 @@ package com.example.appstoreunderstan.mainModule.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.appstoreunderstan.StoreApplication
+
 import com.example.appstoreunderstan.common.entities.StoreEntity
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import com.example.appstoreunderstan.mainModule.model.MainInteractor
+
 
 class MainViewModel:ViewModel() {
     private var  store:MutableLiveData<List<StoreEntity>> = MutableLiveData()
+    private  var interactor:MainInteractor= MainInteractor()
 
     init { this.setLoadStore() }
 
     fun getStores():LiveData<List<StoreEntity>> =store
 
-    fun setLoadStore(){
-        doAsync {
-            val storeList = StoreApplication.database.storeDoa().getListAllStore()
-            uiThread {
-                store.value=storeList
-            }
+    private fun setLoadStore(){
+    interactor.getStoreCallback(object :MainInteractor.StoresCallback{
+        override fun getStoresCallback(store: MutableList<StoreEntity>) {
+            this@MainViewModel.store.value=store } })
         }
 
     }
 
 
-}

@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
     private fun confirmDelete(storeEntity: StoreEntity){
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
-            .setPositiveButton(R.string.dialog_delete_confirm){_, i ->
+            .setPositiveButton(R.string.dialog_delete_confirm){ _, _ ->
                 doAsync {
                     StoreApplication.database.storeDoa().deleteStore(storeEntity)
                     uiThread {

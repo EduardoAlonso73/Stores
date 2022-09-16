@@ -1,4 +1,4 @@
-package com.example.stores
+package com.example.appstoreunderstan.mainModule
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.OnClickListener
 import com.example.appstoreunderstan.R
-import com.example.appstoreunderstan.StoreEntity
+import com.example.appstoreunderstan.common.StoreEntity
 import com.example.appstoreunderstan.databinding.ItemStoreBinding
 
 
@@ -49,7 +49,7 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
 
     fun setListStore(storeList: MutableList<StoreEntity>) {
         this.nStores=storeList
-        notifyDataSetChanged()
+        notifyItemInserted(nStores.size-1)
     }
 
     fun updateStore(storeEntity: StoreEntity) {

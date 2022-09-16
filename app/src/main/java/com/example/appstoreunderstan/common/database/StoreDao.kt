@@ -1,7 +1,7 @@
-package com.example.appstoreunderstan
+package com.example.appstoreunderstan.common
 
 import androidx.room.*
-import com.example.appstoreunderstan.StoreEntity
+import com.example.appstoreunderstan.common.entities.StoreEntity
 
 @Dao
 interface StoreDao {

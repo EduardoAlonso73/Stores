@@ -1,4 +1,4 @@
-package com.example.appstoreunderstan
+package com.example.appstoreunderstan.common
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.example.appstoreunderstan
+package com.example.appstoreunderstan.mainModule
 
 import android.content.Intent
 import android.net.Uri
@@ -6,23 +6,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.appstoreunderstan.*
+import com.example.appstoreunderstan.common.utils.MainAux
+import com.example.appstoreunderstan.common.entities.StoreEntity
 import com.example.appstoreunderstan.databinding.ActivityMainBinding
-import com.example.stores.StoreAdapter
+import com.example.appstoreunderstan.editModel.EditStoreFragment
+import com.example.appstoreunderstan.mainModule.adapter.OnClickListener
+import com.example.appstoreunderstan.mainModule.adapter.StoreAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
 
 
 
-class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
+class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
 
     private lateinit var  mBinding: ActivityMainBinding
-    private lateinit var  mAdapter:StoreAdapter
+    private lateinit var  mAdapter: StoreAdapter
     private lateinit var mGridLayout: GridLayoutManager
 
     private var mainMenu: Menu? = null
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
         mBinding.btnFa.setOnClickListener{ launchEditFragment() }
     }
         private fun launchEditFragment(args:Bundle?=null){
-            val fragment=EditStoreFragment()
+            val fragment= EditStoreFragment()
             if(args!=null){fragment.arguments=args}
             val fragmentManager=supportFragmentManager
             val fragmentTransaction=fragmentManager.beginTransaction()
@@ -47,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnClickListener,MainAux {
 
         }
 
-    private  fun initRecycleView(numLayou:Int=R.integer.main_column){
+    private  fun initRecycleView(numLayou:Int= R.integer.main_column){
         mAdapter= StoreAdapter(mutableListOf(),this)
         mGridLayout=GridLayoutManager(this,resources.getInteger(numLayou))
         getListStore()

@@ -1,4 +1,4 @@
-package com.example.appstoreunderstan
+package com.example.appstoreunderstan.editModel
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,9 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.appstoreunderstan.R
+import com.example.appstoreunderstan.StoreApplication
+import com.example.appstoreunderstan.common.entities.StoreEntity
 import com.example.appstoreunderstan.databinding.FragmentEditStoreBinding
 import com.example.appstoreunderstan.mainModule.MainActivity
 import com.google.android.material.snackbar.Snackbar
@@ -50,7 +53,9 @@ private var mActivity : MainActivity? = null
     private fun setupActionBar() {
         mActivity = activity as? MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)// Habilitamos el icono de retroceso <-
-        mActivity?.supportActionBar?.title=if(mIsEditMode) getString(R.string.edit_store) else getString(R.string.edit_store_add)
+        mActivity?.supportActionBar?.title=if(mIsEditMode) getString(R.string.edit_store) else getString(
+            R.string.edit_store_add
+        )
         setHasOptionsMenu(true) //Habilitamos la opcion  para agregar  actiones en el appBar
     }
 
@@ -74,7 +79,7 @@ private var mActivity : MainActivity? = null
 
     private fun getStore(id: Long) {
         doAsync {
-            mStoreEntity=StoreApplication.database.storeDoa().getStoreById(id)
+            mStoreEntity= StoreApplication.database.storeDoa().getStoreById(id)
             uiThread {
                 mStoreEntity.let { setUiStore(mStoreEntity!!) }
 
@@ -108,7 +113,7 @@ private var mActivity : MainActivity? = null
                     mActivity?.onBackPressed()
                 true
             }
-            R.id.action_save-> {
+            R.id.action_save -> {
               if(mStoreEntity!=null && validateFields(mBinding.tiPhotoUrl,mBinding.tilPhone,mBinding.tilName)){
                   with(mStoreEntity!!){
                       name= mBinding.etName.text.toString().trim()
@@ -118,8 +123,8 @@ private var mActivity : MainActivity? = null
                   }
                   // val store=StoreEntity(name=nameStore,phone=phone, website = website, photoUrl = photoUrl)
                   doAsync {
-                      if (mIsEditMode)StoreApplication.database.storeDoa().updateStores(mStoreEntity!!)
-                      else mStoreEntity!!.id=StoreApplication.database.storeDoa().addStore(mStoreEntity!!)
+                      if (mIsEditMode) StoreApplication.database.storeDoa().updateStores(mStoreEntity!!)
+                      else mStoreEntity!!.id= StoreApplication.database.storeDoa().addStore(mStoreEntity!!)
 
                       uiThread {
                           if(mIsEditMode){

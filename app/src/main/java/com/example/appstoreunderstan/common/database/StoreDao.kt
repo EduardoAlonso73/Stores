@@ -1,4 +1,4 @@
-package com.example.appstoreunderstan.common
+package com.example.appstoreunderstan.common.database
 
 import androidx.room.*
 import com.example.appstoreunderstan.common.entities.StoreEntity

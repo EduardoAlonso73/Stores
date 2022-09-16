@@ -1,4 +1,4 @@
-package com.example.appstoreunderstan.mainModule
+package com.example.appstoreunderstan.mainModule.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.appstoreunderstan.OnClickListener
 import com.example.appstoreunderstan.R
-import com.example.appstoreunderstan.common.StoreEntity
+import com.example.appstoreunderstan.common.entities.StoreEntity
 import com.example.appstoreunderstan.databinding.ItemStoreBinding
 
 

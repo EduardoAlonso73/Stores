@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_cover"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".EditStoreFragment">
+    tools:context=".editModel.EditStoreFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout

@@ -1,6 +1,6 @@
-package com.example.appstoreunderstan.common
+package com.example.appstoreunderstan.common.utils
 
-import com.example.appstoreunderstan.common.StoreEntity
+import com.example.appstoreunderstan.common.entities.StoreEntity
 
 interface MainAux {
     fun hideBtnFb(isVisible:Boolean=true)

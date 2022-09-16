@@ -1,6 +1,6 @@
-package com.example.appstoreunderstan
+package com.example.appstoreunderstan.mainModule.adapter
 
-import com.example.appstoreunderstan.common.StoreEntity
+import com.example.appstoreunderstan.common.entities.StoreEntity
 
 interface OnClickListener {
     fun onClick(storeId: Long){}

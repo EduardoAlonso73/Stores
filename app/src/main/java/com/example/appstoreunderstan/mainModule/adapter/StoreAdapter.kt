@@ -46,8 +46,9 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
       }
     }
 
-    fun setListStore(storeList: MutableList<StoreEntity>) {
-        this.nStores=storeList
+    fun setListStore(storeList: List<StoreEntity>) {
+        //Realizamos un casteo list as MutableList
+        this.nStores=storeList as MutableList<StoreEntity>
         notifyItemInserted(nStores.size-1)
     }
 

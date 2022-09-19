@@ -53,20 +53,24 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             if (isVisible) mBinding.btnFa.show() else mBinding.btnFa.hide()
         }
 
+        mEditStoreViewModel.getStoreSelect().observe(this){
+            mAdapter.addStore(it)
+        }
+
     }
 
-    private fun launchEditFragment(args:Bundle?=null){
-            mEditStoreViewModel.setShowFab(false)
-            val fragment= EditStoreFragment()
-            if(args!=null){fragment.arguments=args}
-            val fragmentManager=supportFragmentManager
-            val fragmentTransaction=fragmentManager.beginTransaction()
-            fragmentTransaction.add(R.id.contreinerMain,fragment)
-            fragmentTransaction.addToBackStack(null)// Me permite regresar al main activity
-            fragmentTransaction.commit()
-            //hideBtnFb(false)
+    private fun launchEditFragment(storeEntity: StoreEntity= StoreEntity()){
+        mEditStoreViewModel.setShowFab(false)
+        mEditStoreViewModel.setStoreSelectored(storeEntity)
+        val fragment= EditStoreFragment()
+        val fragmentManager=supportFragmentManager
+        val fragmentTransaction=fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.contreinerMain,fragment)
+        fragmentTransaction.addToBackStack(null)// Me permite regresar al main activity
+        fragmentTransaction.commit()
 
-        }
+
+    }
 
     private  fun initRecycleView(){
         mAdapter= StoreAdapter(mutableListOf(),this)
@@ -79,14 +83,12 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     }
 
 
-     /*==============================================
-                 interface  onChecklists
-     ==============================================*/
+    /*==============================================
+                interface  onChecklists
+    ==============================================*/
 
-    override fun onClick(storeId: Long) {
-     val args =Bundle()
-        args.putLong(getString(R.string.arg_id),storeId)
-        launchEditFragment(args)
+    override fun onClick(storeEntity: StoreEntity) {
+        launchEditFragment(storeEntity)
     }
 
 
@@ -138,7 +140,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
                 action = Intent.ACTION_VIEW
                 data = Uri.parse((website))
             }
-                startIntent(websiteIntert)
+            startIntent(websiteIntert)
         }
     }
 
@@ -151,5 +153,5 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     }
 
 
-   }
+}
 

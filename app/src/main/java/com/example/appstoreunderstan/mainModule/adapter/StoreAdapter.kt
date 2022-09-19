@@ -25,7 +25,7 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-      val store=nStores.get(position)
+      val store= nStores[position]
         with(holder){
             setListener(store)
             binding.tvName.text=store.name
@@ -49,28 +49,14 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
     fun setListStore(storeList: List<StoreEntity>) {
         //Realizamos un casteo list as MutableList
         this.nStores=storeList as MutableList<StoreEntity>
-        notifyItemInserted(nStores.size-1)
+        notifyDataSetChanged()
     }
 
-    fun updateStore(storeEntity: StoreEntity) {
-        val i = nStores.indexOf(storeEntity)
-        if (i != -1){
-            nStores.set(i,storeEntity)
-            notifyItemChanged(i)
-        }
-    }
-
-    fun deleteStore(storeEntity: StoreEntity) {
-        val i = nStores.indexOf(storeEntity)
-        if (i!= -1){
-            nStores.removeAt(i)
-            notifyItemRemoved(i)
-        }
-    }
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemStoreBinding.bind(view)
+
          fun setListener(storeEntity: StoreEntity) {
              with(binding.root){
                  setOnClickListener { listener.onClick(storeEntity.id) }

@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,8 +17,7 @@ import com.example.appstoreunderstan.mainModule.adapter.OnClickListener
 import com.example.appstoreunderstan.mainModule.adapter.StoreAdapter
 import com.example.appstoreunderstan.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+
 
 
 
@@ -66,9 +64,9 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
 
         }
 
-    private  fun initRecycleView(numLayou:Int= R.integer.main_column){
+    private  fun initRecycleView(){
         mAdapter= StoreAdapter(mutableListOf(),this)
-        mGridLayout=GridLayoutManager(this,resources.getInteger(numLayou))
+        mGridLayout=GridLayoutManager(this,2)
         //getListStore()
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
@@ -77,33 +75,6 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
         }
     }
 
-    //TODO: Comentario
-
-/*    private fun getListStore(){
-        doAsync {
-            val storeList = StoreApplication.database.storeDoa().getListAllStore()
-            uiThread {mAdapter.setListStore(storeList)}
-        }
-
-    }*/
-
-
-    /* ==============================================
-                          ACTION BAR
-     =============================================== */
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        mainMenu = menu
-        menuInflater.inflate(R.menu.option_layout, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_grid2 -> {initRecycleView() }
-            R.id.action_row -> { initRecycleView(R.integer.one_column) }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
      /*==============================================
                  interface  onChecklists
@@ -117,22 +88,15 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
 
 
     override fun onFavoriteStore(storeEntity: StoreEntity) {
-      storeEntity.isFavorite = !storeEntity.isFavorite
-        doAsync {
-            StoreApplication.database.storeDoa().updateStores(storeEntity)
-            uiThread {
-                Toast.makeText(this@MainActivity,storeEntity.isFavorite.toString(), Toast.LENGTH_SHORT).show()
-                updateStore(storeEntity)
-            }
-        }
-    }
-    override fun onDeleteStore(storeEntity: StoreEntity) {
-   // val itemsOption= arrayOf("Eliminar","Llamar","Ir al sition web")
-        val itemsOption= resources.getTextArray(R.array.array_optins_item)
+        storeEntity.isFavorite = !storeEntity.isFavorite
+        mMainViewModel.updateStoreFavorite(storeEntity) }
 
+    override fun onDeleteStore(storeEntity: StoreEntity) {
+        // val itemsOption= arrayOf("Eliminar","Llamar","Ir al sition web")
+        val itemsOption= resources.getTextArray(R.array.array_optins_item)
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
-            .setItems(itemsOption){dialogInterface, i ->
+            .setItems(itemsOption){ _, i ->
                 when(i){
                     0->{confirmDelete(storeEntity)}
                     1->{dial(storeEntity.phone)}
@@ -147,12 +111,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.dialog_delete_title)
             .setPositiveButton(R.string.dialog_delete_confirm){ _, _ ->
-                doAsync {
-                    StoreApplication.database.storeDoa().deleteStore(storeEntity)
-                    uiThread {
-                        mAdapter.deleteStore(storeEntity)
-                    }
-                }
+                mMainViewModel.deleteStore(storeEntity)
             }
             .setNegativeButton(R.string.dialog_delete_cancel,null)
             .show()
@@ -197,8 +156,8 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     }
 
     override fun hideMenu(menuVisibility: Boolean) {
-        mainMenu?.findItem(R.id.action_row)?.setVisible(menuVisibility)
-        mainMenu?.findItem(R.id.action_grid2)?.setVisible(menuVisibility)
+        mainMenu?.findItem(R.id.action_row)?.isVisible = menuVisibility
+        mainMenu?.findItem(R.id.action_grid2)?.isVisible = menuVisibility
         Toast.makeText(this,"Hola mundo",Toast.LENGTH_SHORT).show()
     }
 
@@ -207,7 +166,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
     }
 
     override fun updateStore(storeEntity: StoreEntity) {
-    mAdapter.updateStore(storeEntity)
+   // mAdapter.updateStore(storeEntity)
     }
 
 }

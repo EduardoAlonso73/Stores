@@ -9,19 +9,48 @@ import com.example.appstoreunderstan.mainModule.model.MainInteractor
 
 
 class MainViewModel:ViewModel() {
-    private var  store:MutableLiveData<List<StoreEntity>> = MutableLiveData()
+    private    var storeList:MutableList<StoreEntity> = mutableListOf()
     private  var interactor:MainInteractor= MainInteractor()
 
-    init { this.setLoadStore() }
+    // lazy is other way to initialization  variable of type --val--
+    private val  store:MutableLiveData<List<StoreEntity>>  by lazy { MutableLiveData<List<StoreEntity>>()
+        .also {  loadStore() } }
+
 
     fun getStores():LiveData<List<StoreEntity>> =store
 
-    private fun setLoadStore(){
-    interactor.getStoreCallback(object :MainInteractor.StoresCallback{
-        override fun getStoresCallback(store: MutableList<StoreEntity>) {
-            this@MainViewModel.store.value=store } })
+
+    private fun loadStore(){
+        interactor.getStore {
+            store.value=it
+            storeList=it
         }
 
     }
+
+    fun deleteStore(storeEntity: StoreEntity){
+        interactor.deleteStore(storeEntity){
+            val index = storeList.indexOf(storeEntity)
+            if (index!= -1){
+                storeList.removeAt(index)
+                store.value=storeList
+            }
+        }
+    }
+
+
+    fun updateStoreFavorite(storeEntity: StoreEntity){
+        storeEntity.isFavorite = !storeEntity.isFavorite
+        interactor.updateStoreFavorite(storeEntity){
+            val index = storeList.indexOf(storeEntity)
+            if (index!= -1){
+                storeList[index] = storeEntity
+                store.value=storeList
+            }
+        }
+    }
+
+
+}
 
 

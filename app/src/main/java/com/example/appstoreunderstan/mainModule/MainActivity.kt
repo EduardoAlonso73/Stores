@@ -46,7 +46,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     private  fun setupViewModel() {
 
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        mMainViewModel.getStores().observe(this) { store -> mAdapter.setListStore(store) }
+        mMainViewModel.getStores().observe(this) { store ->
+            mAdapter.setListStore(store)
+        }
 
         mEditStoreViewModel = ViewModelProvider(this)[EditStoreViewModel::class.java]
         mEditStoreViewModel.getShowFab().observe(this) { isVisible ->

@@ -6,7 +6,7 @@ import com.example.appstoreunderstan.common.entities.StoreEntity
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class MainInteractor {
+class MainInteraction {
 
     fun getStore(callback: (MutableList<StoreEntity>)-> Unit){
         doAsync {

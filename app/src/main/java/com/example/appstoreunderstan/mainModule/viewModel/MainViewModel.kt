@@ -3,14 +3,13 @@ package com.example.appstoreunderstan.mainModule.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
 import com.example.appstoreunderstan.common.entities.StoreEntity
-import com.example.appstoreunderstan.mainModule.model.MainInteractor
+import com.example.appstoreunderstan.mainModule.model.MainInteraction
 
 
 class MainViewModel:ViewModel() {
     private    var storeList:MutableList<StoreEntity> = mutableListOf()
-    private  var interactor:MainInteractor= MainInteractor()
+    private  var interactor:MainInteraction= MainInteraction()
 
     // lazy is other way to initialization  variable of type --val--
     private val  store:MutableLiveData<List<StoreEntity>>  by lazy { MutableLiveData<List<StoreEntity>>()
@@ -18,8 +17,6 @@ class MainViewModel:ViewModel() {
 
 
     fun getStores():LiveData<List<StoreEntity>> =store
-
-
     private fun loadStore(){
         interactor.getStore {
             store.value=it

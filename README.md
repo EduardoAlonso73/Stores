@@ -3,7 +3,7 @@
 <h3 align="center">Store</h3>
 
 <p align="center">
- Application that it has the function to save,edit and delet  information <br> about a store  such as its phone and website 
+ Application that it has the function to save,edit and delete  information <br> about a store  such as its phone and website implementing   the MVVM architecture 
     <br />
  
   </p>

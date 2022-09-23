@@ -50,7 +50,8 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
         if (store.id !=0L) {
             if(!nStores.contains(store)){
                 nStores.add(store)
-                notifyItemChanged(nStores.size-1)
+                notifyDataSetChanged()
+               // notifyItemChanged(nStores.size-1)
             }else{
                 updateStore(store)
             }

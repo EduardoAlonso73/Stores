@@ -40,9 +40,8 @@ class StoreAdapter(private var nStores:MutableList<StoreEntity>, private  var li
     override fun getItemCount(): Int = nStores.size
 
 
-    fun setListStore(storeList: List<StoreEntity>) {
-        //Realizamos un casteo list as MutableList
-        this.nStores=storeList as MutableList<StoreEntity>
+    fun setListStore(storeList: MutableList<StoreEntity>) {
+        this.nStores=storeList
         notifyDataSetChanged()
     }
 

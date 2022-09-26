@@ -12,11 +12,11 @@ class MainViewModel:ViewModel() {
     private  var interactor:MainInteraction= MainInteraction()
 
     // lazy is other way to initialization  variable of type --val--
-    private val  store:MutableLiveData<List<StoreEntity>>  by lazy { MutableLiveData<List<StoreEntity>>()
+    private val  store:MutableLiveData<MutableList<StoreEntity>>  by lazy { MutableLiveData<MutableList<StoreEntity>>()
         .also {  loadStore() } }
 
 
-    fun getStores():LiveData<List<StoreEntity>> =store
+    fun getStores():LiveData<MutableList<StoreEntity>> =store
     private fun loadStore(){
         interactor.getStore {
             store.value=it

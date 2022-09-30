@@ -16,26 +16,27 @@ import org.jetbrains.anko.uiThread
 class MainInteraction {
 
     fun getStore(callback: (MutableList<StoreEntity>) -> Unit){
+        var storeList= mutableListOf<StoreEntity>()
         val url=Constants.STORES_URL+Constants.GET_ALL_PATH
         val jsonObjectRequest=JsonObjectRequest(Request.Method.GET,url,null,{response->
-          //val status =response.getInt(Constants.STATUS_PROPERTY)
             val status =response.optInt(Constants.STATUS_PROPERTY,Constants.ERROR)
             Log.i("Response",response.toString())
 
             if(status == Constants.SUCCESS){
-                val jsonList =response.getJSONArray(Constants.STORES_PROPERTY).toString()
-                println("1- jsonList ==== $jsonList")
-                // TypeToken is used to tell Gson what exactly you want your string to get converted to
-                val mutableListType=object:TypeToken<MutableList<StoreEntity>>(){}.type
-                println("2- mutableListType ==== ${mutableListType}")
-                val storeList=Gson().fromJson<MutableList<StoreEntity>>(jsonList,mutableListType)
+                val jsonList=response.optJSONArray(Constants.STORES_PROPERTY)?.toString()
+               jsonList?.let{
+                   //TypeToken is used to tell Gson what exactly you want your string to get converted to
+                   val mutableListType=object:TypeToken<MutableList<StoreEntity>>(){}.type
+                   storeList=Gson().fromJson(it,mutableListType)
+                   println("StoreList $storeList")
+                   callback(storeList)
+                   return@JsonObjectRequest
+               }
                 callback(storeList)
-                println("3- StoreList ==== ${storeList}")
-               // Log.i("Status ",status.toString())
             }
-
         },{
             it.printStackTrace()
+            callback(storeList)
         })
         StoreApplication.storeAPI.addToRequestQueue(jsonObjectRequest)
     }

@@ -1,5 +1,6 @@
 package com.example.appstoreunderstan.common.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.appstoreunderstan.common.entities.StoreEntity
 
@@ -7,7 +8,7 @@ import com.example.appstoreunderstan.common.entities.StoreEntity
 interface StoreDao {
     // ******* QUERY PARA MOSTRAR LOS DATOS DE LA TABLA STOREENTITY *******
         @Query("SELECT * FROM StoreEntity")
-        fun  getListAllStore(): MutableList<StoreEntity>
+        fun  getListAllStore(): LiveData<MutableList<StoreEntity>>
     // ******* FUNCTION FOR ADD NUW STORES *******
         @Insert
         fun addStore(storeEntity: StoreEntity):Long

@@ -14,13 +14,17 @@ class MainViewModel:ViewModel() {
     private  val showProgress:MutableLiveData<Boolean> = MutableLiveData()
 
     // lazy is other way to initialization  variable of type --val--
-    private val  store:MutableLiveData<MutableList<StoreEntity>>  by lazy { MutableLiveData<MutableList<StoreEntity>>()
-        .also {  loadStore() } }
+   /* private val  store:MutableLiveData<MutableList<StoreEntity>>  by lazy { MutableLiveData<MutableList<StoreEntity>>()
+        .also {  loadStore() } }*/
+
+    private  val store=interactor.stores
+
     fun getStores():LiveData<MutableList<StoreEntity>> =store
 
 
     fun isShowProgressBar():LiveData<Boolean> =showProgress
-    private fun loadStore(){
+
+/*    private fun loadStore(){
         showProgress.value=Constants.SHOW //Inicia apiori mostrando el progress bar
         interactor.getStore {
             showProgress.value=Constants.HIDE
@@ -28,14 +32,14 @@ class MainViewModel:ViewModel() {
             storeList=it
         }
 
-    }
+    }*/
 
     fun deleteStore(storeEntity: StoreEntity){
         interactor.deleteStore(storeEntity){
             val index = storeList.indexOf(storeEntity)
             if (index!= -1){
                 storeList.removeAt(index)
-                store.value=storeList
+             //   store.value=storeList
             }
         }
     }
@@ -47,7 +51,7 @@ class MainViewModel:ViewModel() {
             val index = storeList.indexOf(storeEntity)
             if (index!= -1){
                 storeList[index] = storeEntity
-                store.value=storeList
+             //   store.value=storeList
             }
         }
     }

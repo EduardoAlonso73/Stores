@@ -2,6 +2,8 @@ package com.example.appstoreunderstan.mainModule.model
 
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.android.volley.Request
 
 import com.android.volley.toolbox.JsonObjectRequest
@@ -15,7 +17,7 @@ import org.jetbrains.anko.uiThread
 
 class MainInteraction {
 
-    fun getStore(callback: (MutableList<StoreEntity>) -> Unit){
+    /*    fun getStore(callback: (MutableList<StoreEntity>) -> Unit){
         var storeList= mutableListOf<StoreEntity>()
         val url=Constants.STORES_URL+Constants.GET_ALL_PATH
         val jsonObjectRequest=JsonObjectRequest(Request.Method.GET,url,null,{response->
@@ -39,10 +41,8 @@ class MainInteraction {
             callback(storeList)
         })
         StoreApplication.storeAPI.addToRequestQueue(jsonObjectRequest)
-    }
-
-
-    fun getStoreRoom(callback: (MutableList<StoreEntity>)-> Unit){
+    }*/
+    /* fun getStoreRoom(callback: (MutableList<StoreEntity>)-> Unit){
         doAsync {
             val storeList = StoreApplication.database.storeDoa().getListAllStore()
             uiThread {
@@ -51,8 +51,13 @@ class MainInteraction {
                 callback(storeList)
             }
         }
-    }
+    }*/
 
+    val stores:LiveData<MutableList<StoreEntity>> = liveData {
+        val storesLiveData=StoreApplication.database.storeDoa().getListAllStore()
+        emitSource(storesLiveData)
+
+    }
     fun deleteStore(storeEntity: StoreEntity,callback: (StoreEntity) -> Unit){
         doAsync {
             StoreApplication.database.storeDoa().deleteStore(storeEntity)

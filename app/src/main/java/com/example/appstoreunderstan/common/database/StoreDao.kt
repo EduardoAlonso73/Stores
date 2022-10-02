@@ -15,7 +15,7 @@ interface StoreDao {
 
     // ******* FUNCTION FOR UPDATE STORES *******
         @Update
-        fun updateStores(storeEntity: StoreEntity)
+       suspend fun updateStores(storeEntity: StoreEntity)
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Delete

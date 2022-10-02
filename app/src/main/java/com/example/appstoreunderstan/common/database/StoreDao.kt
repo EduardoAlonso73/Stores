@@ -23,7 +23,7 @@ interface StoreDao {
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Query("SELECT * FROM StoreEntity where id =:id")
-        fun getStoreById(id:Long): StoreEntity
+        fun getStoreById(id:Long): LiveData<StoreEntity>
 
 
 

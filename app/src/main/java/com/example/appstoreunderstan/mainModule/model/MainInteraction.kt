@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.android.volley.Request
 
 import com.android.volley.toolbox.JsonObjectRequest
@@ -54,8 +55,11 @@ class MainInteraction {
     }*/
 
     val stores:LiveData<MutableList<StoreEntity>> = liveData {
+        kotlinx.coroutines.delay(1_000)
         val storesLiveData=StoreApplication.database.storeDoa().getListAllStore()
-        emitSource(storesLiveData)
+        emitSource(storesLiveData.map { stores->
+            stores.sortedBy { it.name }.toMutableList()
+        })
 
     }
     fun deleteStore(storeEntity: StoreEntity,callback: (StoreEntity) -> Unit){

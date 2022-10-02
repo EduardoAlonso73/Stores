@@ -15,6 +15,7 @@ import com.example.appstoreunderstan.editModel.EditStoreFragment
 import com.example.appstoreunderstan.editModel.viewModel.EditStoreViewModel
 import com.example.appstoreunderstan.mainModule.adapter.OnClickListener
 import com.example.appstoreunderstan.mainModule.adapter.StoreAdapter
+import com.example.appstoreunderstan.mainModule.adapter.StoreListAdapter
 import com.example.appstoreunderstan.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -25,7 +26,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 class MainActivity : AppCompatActivity(), OnClickListener {
 
     private lateinit var  mBinding: ActivityMainBinding
-    private lateinit var  mAdapter: StoreAdapter
+    //private lateinit var  mAdapter: StoreAdapter
+    private lateinit var  mAdapter: StoreListAdapter
     private lateinit var mGridLayout: GridLayoutManager
     //MVVM
     private  lateinit var mMainViewModel: MainViewModel
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mMainViewModel.getStores().observe(this) { store ->
-            mAdapter.setListStore(store)
+     mAdapter.submitList(store)
 
         }
 
@@ -62,9 +64,9 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
 
 
-        mEditStoreViewModel.getStoreSelect().observe(this){
+    /*    mEditStoreViewModel.getStoreSelect().observe(this){
             mAdapter.addStore(it)
-        }
+        }*/
 
     }
 
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     }
 
     private  fun initRecycleView(){
-        mAdapter= StoreAdapter(mutableListOf(),this)
+        mAdapter= StoreListAdapter((this))
         mGridLayout=GridLayoutManager(this,2)
         mBinding.recyclerView.apply {
             setHasFixedSize(true)

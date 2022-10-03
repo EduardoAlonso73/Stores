@@ -57,12 +57,12 @@ class MainActivity : AppCompatActivity(), OnClickListener {
             mBinding.Progress.visibility= if(it)View.VISIBLE else View.GONE
         }
         mMainViewModel.getTypeError().observe(this){type ->
-            val msgRes= when(type){
-               TypeError.GET->{"Error al consultar datos"}
-               TypeError.DELETE->{"Error al eliminar datos"}
-               TypeError.INSERT->{"Error al insertar datos"}
-               TypeError.UPDATE->{"Error al actualizar datos"}
-                else->{"Valor null "}
+            val msgRes = when(type){
+               TypeError.GET-> R.string.main_error_get
+               TypeError.DELETE->R.string.main_error_delete
+               TypeError.INSERT->R.string.main_error_insert
+               TypeError.UPDATE->R.string.main_error_update
+                else->R.string.main_error_unknown
             }
             Snackbar.make(mBinding.root,msgRes,Snackbar.LENGTH_SHORT).show()
 

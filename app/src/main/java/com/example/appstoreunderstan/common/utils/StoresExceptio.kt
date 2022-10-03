@@ -1,4 +1,4 @@
 package com.example.appstoreunderstan.common.utils
 
-class StoresExceptio(var typeError: TypeError) {
+class StoresExceptio(var typeError: TypeError):Exception() {
 }

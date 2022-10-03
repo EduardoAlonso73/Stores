@@ -3,6 +3,7 @@ package com.example.appstoreunderstan.editModel
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -46,9 +47,9 @@ class EditStoreFragment : Fragment() {
 
     private fun setupViewModel() {
         mEditStoreViewModel.getStoreSelect().observe(viewLifecycleOwner){
-
+            println("IT ===> $it")
             mStoreEntity=it?:StoreEntity()
-            if(it.id !=0L) {
+            if(it !=null) {
                 mIsEditMode=true
                 setUiStore(it)
             } else{ mIsEditMode=false }
@@ -167,8 +168,8 @@ class EditStoreFragment : Fragment() {
     }
 
     private  fun hideKeyboard(){
-        val imm =mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(requireView().windowToken,0)
+        val imm =mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(requireView().windowToken,0)
         //  imm.hideSoftInputFromWindow(view?.windowToken,0)    // Otro forma de hacerlo
 
     }

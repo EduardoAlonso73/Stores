@@ -1,20 +1,14 @@
 package com.example.appstoreunderstan.mainModule.model
-
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
-import com.android.volley.Request
-
-import com.android.volley.toolbox.JsonObjectRequest
 import com.example.appstoreunderstan.StoreApplication
 import com.example.appstoreunderstan.common.entities.StoreEntity
-import com.example.appstoreunderstan.common.utils.Constants
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import com.example.appstoreunderstan.common.utils.StoresExceptio
+import com.example.appstoreunderstan.common.utils.TypeError
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 
 class MainInteraction {
 
@@ -54,28 +48,35 @@ class MainInteraction {
         }
     }*/
 
+
     val stores:LiveData<MutableList<StoreEntity>> = liveData {
-        kotlinx.coroutines.delay(1_000)
+        delay(1_000)
         val storesLiveData=StoreApplication.database.storeDoa().getListAllStore()
         emitSource(storesLiveData.map { stores->
             stores.sortedBy { it.name }.toMutableList()
         })
 
     }
-    fun deleteStore(storeEntity: StoreEntity,callback: (StoreEntity) -> Unit){
-        doAsync {
-            StoreApplication.database.storeDoa().deleteStore(storeEntity)
-            uiThread {callback(storeEntity)}
-        }
+    suspend fun deleteStore(storeEntity: StoreEntity)= withContext(Dispatchers.IO){
+        delay(2_000)
+        val result=StoreApplication.database.storeDoa().deleteStore(storeEntity)
+        if(result==0) throw  StoresExceptio(TypeError.DELETE)
+
     }
 
 
-    fun  updateStoreFavorite(storeEntity:StoreEntity,callback: (StoreEntity) -> Unit){
-        storeEntity.isFavorite = !storeEntity.isFavorite
-        doAsync {
-            StoreApplication.database.storeDoa().updateStores(storeEntity)
-            uiThread { callback(storeEntity)}
-        }
+    suspend fun  updateStoreFavorite(storeEntity:StoreEntity) = withContext(Dispatchers.IO){
+        delay(2_000)
+        val result= StoreApplication.database.storeDoa().updateStores(storeEntity)
+        if (result==0) throw  StoresExceptio(TypeError.UPDATE)
+
+        /* storeEntity.isFavorite = !storeEntity.isFavorite
+         doAsync {
+
+             uiThread { callback(storeEntity)}
+         }*/
     }
+
 
 }
+

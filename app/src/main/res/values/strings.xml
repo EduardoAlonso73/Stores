@@ -22,4 +22,9 @@
     <string name="option_item_goToWeb">Ir al sitio web</string>
     <string name="dialog_delete_cancel">Cancelar</string>
     <string name="data_store">Data Store</string>
+    <string name="main_error_get">Error when querying data</string>
+    <string name="main_error_delete">Error when deleting data</string>
+    <string name="main_error_insert">error when adding data</string>
+    <string name="main_error_update">error when updating data</string>
+    <string name="main_error_unknown">Error unknown</string>
 </resources>

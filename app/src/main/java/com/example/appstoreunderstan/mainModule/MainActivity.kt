@@ -10,17 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.*
 import com.example.appstoreunderstan.common.entities.StoreEntity
+import com.example.appstoreunderstan.common.utils.TypeError
 import com.example.appstoreunderstan.databinding.ActivityMainBinding
 import com.example.appstoreunderstan.editModel.EditStoreFragment
 import com.example.appstoreunderstan.editModel.viewModel.EditStoreViewModel
 import com.example.appstoreunderstan.mainModule.adapter.OnClickListener
-import com.example.appstoreunderstan.mainModule.adapter.StoreAdapter
 import com.example.appstoreunderstan.mainModule.adapter.StoreListAdapter
 import com.example.appstoreunderstan.mainModule.viewModel.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-
-
-
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity(), OnClickListener {
@@ -50,12 +48,24 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         mMainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mMainViewModel.getStores().observe(this) { store ->
-     mAdapter.submitList(store)
+            mBinding.Progress.visibility=View.GONE
+            mAdapter.submitList(store)
 
         }
 
-        mMainViewModel.isShowProgressBar().observe(this){
+       mMainViewModel.isShowProgressBar().observe(this){
             mBinding.Progress.visibility= if(it)View.VISIBLE else View.GONE
+        }
+        mMainViewModel.getTypeError().observe(this){type ->
+            val msgRes= when(type){
+               TypeError.GET->{"Error al consultar datos"}
+               TypeError.DELETE->{"Error al eliminar datos"}
+               TypeError.INSERT->{"Error al insertar datos"}
+               TypeError.UPDATE->{"Error al actualizar datos"}
+                else->{"Valor null "}
+            }
+            Snackbar.make(mBinding.root,msgRes,Snackbar.LENGTH_SHORT).show()
+
         }
         mEditStoreViewModel = ViewModelProvider(this)[EditStoreViewModel::class.java]
         mEditStoreViewModel.getShowFab().observe(this) { isVisible ->
@@ -64,15 +74,16 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
 
 
-    /*    mEditStoreViewModel.getStoreSelect().observe(this){
-            mAdapter.addStore(it)
-        }*/
+        /*    mEditStoreViewModel.getStoreSelect().observe(this){
+                mAdapter.addStore(it)
+            }*/
 
     }
 
     private fun launchEditFragment(storeEntity: StoreEntity= StoreEntity()){
         mEditStoreViewModel.setShowFab(false)
         mEditStoreViewModel.setStoreSelectored(storeEntity)
+        println("StoreEntity ===> $storeEntity")
         val fragment= EditStoreFragment()
         val fragmentManager=supportFragmentManager
         val fragmentTransaction=fragmentManager.beginTransaction()
@@ -104,7 +115,7 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
 
     override fun onFavoriteStore(storeEntity: StoreEntity) {
-        storeEntity.isFavorite = !storeEntity.isFavorite
+
         mMainViewModel.updateStoreFavorite(storeEntity) }
 
     override fun onDeleteStore(storeEntity: StoreEntity) {

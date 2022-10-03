@@ -19,7 +19,7 @@ interface StoreDao {
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Delete
-        fun deleteStore(storeEntity: StoreEntity)
+       suspend fun deleteStore(storeEntity: StoreEntity)
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Query("SELECT * FROM StoreEntity where id =:id")

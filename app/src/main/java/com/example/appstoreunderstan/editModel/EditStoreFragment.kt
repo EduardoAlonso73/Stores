@@ -3,7 +3,6 @@ package com.example.appstoreunderstan.editModel
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -14,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.appstoreunderstan.R
 import com.example.appstoreunderstan.common.entities.StoreEntity
+import com.example.appstoreunderstan.common.utils.TypeError
 import com.example.appstoreunderstan.databinding.FragmentEditStoreBinding
 import com.example.appstoreunderstan.editModel.viewModel.EditStoreViewModel
 import com.example.appstoreunderstan.mainModule.MainActivity
@@ -47,7 +47,7 @@ class EditStoreFragment : Fragment() {
 
     private fun setupViewModel() {
         mEditStoreViewModel.getStoreSelect().observe(viewLifecycleOwner){
-            println("IT ===> $it")
+            println("IT ==> $it")
             mStoreEntity=it?:StoreEntity()
             if(it !=null) {
                 mIsEditMode=true
@@ -60,17 +60,24 @@ class EditStoreFragment : Fragment() {
             hideKeyboard()
 
             when(result){
-                is Long ->{
-                    mStoreEntity.id=result
-                    mEditStoreViewModel.setStoreSelectored(mStoreEntity)
-                    Toast.makeText(context,"Tienda agregado", Toast.LENGTH_SHORT).show()
-                    mActivity?.onBackPressed()
-                }
                 is StoreEntity ->{
+                    val  mgsResult=if(result==0L) "Store Added" else "Store edited"
                     mEditStoreViewModel.setStoreSelectored(mStoreEntity)
-                    Toast.makeText(context,"Tienda actulizada ",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,mgsResult,Toast.LENGTH_SHORT).show()
                     mActivity?.onBackPressed()
                 }
+            }
+
+            mEditStoreViewModel.getTypeError().observe(viewLifecycleOwner){type ->
+                val msgRes = when(type){
+                    TypeError.GET-> R.string.main_error_get
+                    TypeError.DELETE->R.string.main_error_delete
+                    TypeError.INSERT->R.string.main_error_insert
+                    TypeError.UPDATE->R.string.main_error_update
+                    else->R.string.main_error_unknown
+                }
+                Snackbar.make(mBinding.root,msgRes,Snackbar.LENGTH_SHORT).show()
+
             }
 
 

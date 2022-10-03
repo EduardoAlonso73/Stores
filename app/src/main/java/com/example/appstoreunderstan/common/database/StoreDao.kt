@@ -15,11 +15,11 @@ interface StoreDao {
 
     // ******* FUNCTION FOR UPDATE STORES *******
         @Update
-       suspend fun updateStores(storeEntity: StoreEntity)
+       suspend fun updateStores(storeEntity: StoreEntity):Int
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Delete
-       suspend fun deleteStore(storeEntity: StoreEntity)
+       suspend fun deleteStore(storeEntity: StoreEntity):Int
 
     // ******* FUNCTION FOR DELETE STORES *******
         @Query("SELECT * FROM StoreEntity where id =:id")

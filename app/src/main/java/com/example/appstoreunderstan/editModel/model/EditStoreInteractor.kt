@@ -3,8 +3,11 @@ package com.example.appstoreunderstan.editModel.model
 import androidx.lifecycle.LiveData
 import com.example.appstoreunderstan.StoreApplication
 import com.example.appstoreunderstan.common.entities.StoreEntity
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
+import com.example.appstoreunderstan.common.utils.StoresExceptio
+import com.example.appstoreunderstan.common.utils.TypeError
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 
 class EditStoreInteractor {
 
@@ -12,20 +15,15 @@ class EditStoreInteractor {
         return  StoreApplication.database.storeDoa().getStoreById(id)
     }
 
-    fun saveStore(storeEntity: StoreEntity, callback: (Long) -> Unit){
-        doAsync {
-            val newId = StoreApplication.database.storeDoa().addStore(storeEntity)
-           // StoreApplication.database.storeDoa().addStore(storeEntity)
-            uiThread {callback(newId)}
-        }
+    suspend fun saveStore(storeEntity: StoreEntity )= withContext(Dispatchers.IO){
+        val result=StoreApplication.database.storeDoa().addStore(storeEntity)
+        if(result==0L) throw  StoresExceptio(TypeError.INSERT)
     }
 
 
-    fun updateStore(storeEntity: StoreEntity, callback: (StoreEntity) -> Unit){
-        doAsync {
-            StoreApplication.database.storeDoa().updateStores(storeEntity)
-            uiThread {callback(storeEntity)}
-        }
+    suspend   fun updateStore(storeEntity: StoreEntity)= withContext(Dispatchers.IO){
+        val result=StoreApplication.database.storeDoa().updateStores(storeEntity)
+        if(result==0) throw  StoresExceptio(TypeError.UPDATE)
     }
 
 

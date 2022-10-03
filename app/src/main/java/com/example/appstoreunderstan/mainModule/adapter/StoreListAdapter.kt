@@ -39,38 +39,6 @@ class StoreListAdapter(private  var listener: OnClickListener):
         }
     }
 
- /*   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-
-    }*/
-    //override fun getItemCount(): Int = nStores.size
-
-
-/*    fun setListStore(storeList: MutableList<StoreEntity>) {
-        this.nStores=storeList
-        notifyDataSetChanged()
-    }
-
-    fun addStore(store: StoreEntity) {
-        if (store.id !=0L) {
-            if(!nStores.contains(store)){
-                nStores.add(store)
-                notifyDataSetChanged()
-               // notifyItemChanged(nStores.size-1)
-            }else{
-                updateStore(store)
-            }
-        }
-    }
-
-    private  fun updateStore(storeEntity: StoreEntity) {
-        val i = nStores.indexOf(storeEntity)
-        if (i != -1){
-            nStores[i] = storeEntity
-            notifyItemChanged(i)
-        }
-    }*/
-
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemStoreBinding.bind(view)

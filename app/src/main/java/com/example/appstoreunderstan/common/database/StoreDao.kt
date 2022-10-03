@@ -11,7 +11,7 @@ interface StoreDao {
         fun  getListAllStore(): LiveData<MutableList<StoreEntity>>
     // ******* FUNCTION FOR ADD NUW STORES *******
         @Insert
-        fun addStore(storeEntity: StoreEntity):Long
+        suspend fun addStore(storeEntity: StoreEntity):Long
 
     // ******* FUNCTION FOR UPDATE STORES *******
         @Update

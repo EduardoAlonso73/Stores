@@ -75,6 +75,11 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
     }
 
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        mEditStoreViewModel.setShowFab(true)
+    }
     private fun launchEditFragment(storeEntity: StoreEntity= StoreEntity()){
         mEditStoreViewModel.setShowFab(false)
         mEditStoreViewModel.setStoreSelectored(storeEntity)

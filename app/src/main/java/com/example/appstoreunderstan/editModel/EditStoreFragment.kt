@@ -60,11 +60,10 @@ class EditStoreFragment : Fragment() {
             hideKeyboard()
 
             when(result){
-                is StoreEntity ->{
+                is StoreEntity -> {
                     val  mgsResult=if(result==0L) "Store Added" else "Store edited"
                     mEditStoreViewModel.setStoreSelectored(mStoreEntity)
                     Toast.makeText(context,mgsResult,Toast.LENGTH_SHORT).show()
-                    mActivity?.onBackPressed()
                 }
             }
 
@@ -80,7 +79,7 @@ class EditStoreFragment : Fragment() {
 
             }
 
-
+            mActivity?.onBackPressed()
 
         }
 

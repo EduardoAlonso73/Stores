@@ -24,13 +24,12 @@ import com.google.android.material.snackbar.Snackbar
 class MainActivity : AppCompatActivity(), OnClickListener {
 
     private lateinit var  mBinding: ActivityMainBinding
-    //private lateinit var  mAdapter: StoreAdapter
     private lateinit var  mAdapter: StoreListAdapter
     private lateinit var mGridLayout: GridLayoutManager
     //MVVM
     private  lateinit var mMainViewModel: MainViewModel
     private  lateinit var mEditStoreViewModel:EditStoreViewModel
-    //
+
 
 
 
@@ -73,10 +72,6 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         }
 
 
-
-        /*    mEditStoreViewModel.getStoreSelect().observe(this){
-                mAdapter.addStore(it)
-            }*/
 
     }
 

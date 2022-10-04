@@ -1,5 +1,6 @@
 package com.example.appstoreunderstan.editModel.model
 
+import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import com.example.appstoreunderstan.StoreApplication
 import com.example.appstoreunderstan.common.entities.StoreEntity
@@ -7,6 +8,7 @@ import com.example.appstoreunderstan.common.utils.StoresExceptio
 import com.example.appstoreunderstan.common.utils.TypeError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.sql.SQLException
 
 
 class EditStoreInteractor {
@@ -16,14 +18,20 @@ class EditStoreInteractor {
     }
 
     suspend fun saveStore(storeEntity: StoreEntity )= withContext(Dispatchers.IO){
-        val result=StoreApplication.database.storeDoa().addStore(storeEntity)
-        if(result==0L) throw  StoresExceptio(TypeError.INSERT)
+        try {
+            StoreApplication.database.storeDoa().addStore(storeEntity)
+        }catch (e:SQLiteConstraintException){
+            throw  StoresExceptio(TypeError.INSERT)
+        }
+
     }
 
-
     suspend   fun updateStore(storeEntity: StoreEntity)= withContext(Dispatchers.IO){
-        val result=StoreApplication.database.storeDoa().updateStores(storeEntity)
-        if(result==0) throw  StoresExceptio(TypeError.UPDATE)
+        try {
+            val result=StoreApplication.database.storeDoa().updateStores(storeEntity)
+        } catch (e:SQLiteConstraintException){
+            throw  StoresExceptio(TypeError.UPDATE)
+        }
     }
 
 

@@ -67,15 +67,18 @@ class EditStoreFragment : Fragment() {
                 }
             }
 
-            mEditStoreViewModel.getTypeError().observe(viewLifecycleOwner){type ->
-                val msgRes = when(type){
-                    TypeError.GET-> R.string.main_error_get
-                    TypeError.DELETE->R.string.main_error_delete
-                    TypeError.INSERT->R.string.main_error_insert
-                    TypeError.UPDATE->R.string.main_error_update
-                    else->R.string.main_error_unknown
+            mEditStoreViewModel.getTypeError().observe(viewLifecycleOwner){typeError ->
+
+                if(typeError!= TypeError.NONE){
+                    val msgRes = when (typeError) {
+                        TypeError.GET -> R.string.main_error_get
+                        TypeError.DELETE -> R.string.main_error_delete
+                        TypeError.INSERT -> R.string.main_error_insert
+                        TypeError.UPDATE -> R.string.main_error_update
+                        else -> R.string.main_error_unknown
+                    }
+                    Snackbar.make(mBinding.root, msgRes, Snackbar.LENGTH_SHORT).show()
                 }
-                Snackbar.make(mBinding.root,msgRes,Snackbar.LENGTH_SHORT).show()
 
             }
 
@@ -189,8 +192,8 @@ class EditStoreFragment : Fragment() {
     override fun onDestroy() {
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         mActivity?.supportActionBar?.title=getString(R.string.app_name)
-        mEditStoreViewModel.setShowFab(true)
         mEditStoreViewModel.setResult(Any())
+        mEditStoreViewModel.setTypeError(TypeError.NONE)
         setHasOptionsMenu(false)
         super.onDestroy()
 

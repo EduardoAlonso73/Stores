@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.appstoreunderstan.*
@@ -31,7 +32,11 @@ class MainActivity : AppCompatActivity(), OnClickListener {
     private  lateinit var mEditStoreViewModel:EditStoreViewModel
 
 
+    private  val onBackPressedCallback=object :OnBackPressedCallback(true){
+        override fun handleOnBackPressed() {
 
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,15 +57,15 @@ class MainActivity : AppCompatActivity(), OnClickListener {
 
         }
 
-       mMainViewModel.isShowProgressBar().observe(this){
+        mMainViewModel.isShowProgressBar().observe(this){
             mBinding.Progress.visibility= if(it)View.VISIBLE else View.GONE
         }
         mMainViewModel.getTypeError().observe(this){type ->
             val msgRes = when(type){
-               TypeError.GET-> R.string.main_error_get
-               TypeError.DELETE->R.string.main_error_delete
-               TypeError.INSERT->R.string.main_error_insert
-               TypeError.UPDATE->R.string.main_error_update
+                TypeError.GET-> R.string.main_error_get
+                TypeError.DELETE->R.string.main_error_delete
+                TypeError.INSERT->R.string.main_error_insert
+                TypeError.UPDATE->R.string.main_error_update
                 else->R.string.main_error_unknown
             }
             Snackbar.make(mBinding.root,msgRes,Snackbar.LENGTH_SHORT).show()
@@ -70,16 +75,20 @@ class MainActivity : AppCompatActivity(), OnClickListener {
         mEditStoreViewModel.getShowFab().observe(this) { isVisible ->
             if (isVisible) mBinding.btnFa.show() else mBinding.btnFa.hide()
         }
-
-
-
     }
 
 
     override fun onBackPressed() {
         super.onBackPressed()
         mEditStoreViewModel.setShowFab(true)
+        Toast.makeText(this, "Click", Toast.LENGTH_SHORT).show()
+
     }
+
+
+
+
+
     private fun launchEditFragment(storeEntity: StoreEntity= StoreEntity()){
         mEditStoreViewModel.setShowFab(false)
         mEditStoreViewModel.setStoreSelectored(storeEntity)

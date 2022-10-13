@@ -5,10 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appstoreunderstan.common.entities.StoreEntity
-import com.example.appstoreunderstan.common.utils.Constants
 import com.example.appstoreunderstan.common.utils.StoresExceptio
 import com.example.appstoreunderstan.common.utils.TypeError
-import com.example.appstoreunderstan.editModel.model.EditStoreInteractor
+import com.example.appstoreunderstan.editModel.model.EditStoreInteract
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -19,7 +18,7 @@ class EditStoreViewModel:ViewModel() {
     private  val typeError:MutableLiveData<TypeError> = MutableLiveData()
 
 
-    private val  interactor:EditStoreInteractor = EditStoreInteractor()
+    private val  interactor:EditStoreInteract = EditStoreInteract()
 
     // -=-=-=-= Get and set  storeSelected =-=-=-=-=
 

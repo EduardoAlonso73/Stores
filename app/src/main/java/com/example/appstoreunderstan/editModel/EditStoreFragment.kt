@@ -61,7 +61,7 @@ class EditStoreFragment : Fragment() {
 
             when(result){
                 is StoreEntity -> {
-                    val  mgsResult=if(result==0L) "Store Added" else "Store edited"
+                    val  mgsResult=if(result.id==0L) "Store Added" else "Store edited"
                     mEditStoreViewModel.setStoreSelectored(mStoreEntity)
                     Toast.makeText(context,mgsResult,Toast.LENGTH_SHORT).show()
                 }

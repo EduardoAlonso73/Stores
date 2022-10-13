@@ -8,10 +8,9 @@ import com.example.appstoreunderstan.common.utils.StoresExceptio
 import com.example.appstoreunderstan.common.utils.TypeError
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.sql.SQLException
 
 
-class EditStoreInteractor {
+class EditStoreInteract {
 
     fun getStoreById(id:Long): LiveData<StoreEntity> {
         return  StoreApplication.database.storeDoa().getStoreById(id)
@@ -28,7 +27,7 @@ class EditStoreInteractor {
 
     suspend   fun updateStore(storeEntity: StoreEntity)= withContext(Dispatchers.IO){
         try {
-            val result=StoreApplication.database.storeDoa().updateStores(storeEntity)
+            StoreApplication.database.storeDoa().updateStores(storeEntity)
         } catch (e:SQLiteConstraintException){
             throw  StoresExceptio(TypeError.UPDATE)
         }

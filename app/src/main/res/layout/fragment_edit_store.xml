@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_cover"
+    android:background="?android:attr/colorBackground"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".editModel.EditStoreFragment">
 
@@ -17,9 +17,9 @@
             android:id="@+id/imgPhoto"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:contentDescription="@string/description_img_photo"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/ic_image" />
+            android:src="@drawable/ic_image"
+            android:contentDescription="@string/description_img_photo" />
 
 
     <com.google.android.material.card.MaterialCardView
@@ -28,7 +28,7 @@
     android:layout_marginBottom="15dp"
     app:cardElevation="0dp"
     android:layout_marginTop="-45dp"
-    android:backgroundTint="@color/color_cover"
+    android:background="?android:attr/colorBackground"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -96,7 +96,6 @@
             android:hint="@string/hint_website"
             app:endIconMode="clear_text"
             android:textAppearance="?attr/textAppearanceCaption"
-            android:textColor="@color/color_link"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:startIconDrawable="@drawable/ic_link">
             <com.google.android.material.textfield.TextInputEditText
@@ -133,7 +132,7 @@
                     android:maxLines="@integer/lines_url_photo"
                     android:minLines="@integer/lines_url_photo"
                     android:textAppearance="?attr/textAppearanceCaption"
-                    android:textColor="@color/color_link" />
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
